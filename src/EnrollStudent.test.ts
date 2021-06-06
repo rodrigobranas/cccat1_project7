@@ -1,4 +1,4 @@
-import ClassRepositoryMemory from "./ClassRepositoryMemory";
+import ClassroomRepositoryMemory from "./ClassroomRepositoryMemory";
 import EnrollmentRepositoryMemory from "./EnrollmentRepositoryMemory";
 import EnrollStudent from "./EnrollStudent";
 import LevelRepositoryMemory from "./LevelRepositoryMemory";
@@ -10,8 +10,8 @@ beforeEach(function () {
     const enrollmentRepository = new EnrollmentRepositoryMemory();
     const levelRepository = new LevelRepositoryMemory();
     const moduleRepository = new ModuleRepositoryMemory();
-    const classRepository = new ClassRepositoryMemory();
-    enrollStudent = new EnrollStudent(levelRepository, moduleRepository, classRepository, enrollmentRepository);
+    const classroomRepository = new ClassroomRepositoryMemory();
+    enrollStudent = new EnrollStudent(levelRepository, moduleRepository, classroomRepository, enrollmentRepository);
 });
 
 test("Should not enroll without valid student name", function () {
@@ -21,7 +21,7 @@ test("Should not enroll without valid student name", function () {
         },
         level: "EM",
         module: "1",
-        class: "A"
+        classroom: "A"
     };
     expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(new Error("Invalid name"));  
 });
@@ -34,7 +34,7 @@ test("Should not enroll without valid student cpf", function () {
         },
         level: "EM",
         module: "1",
-        class: "A"
+        classroom: "A"
     };
     expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(new Error("Invalid cpf"));  
 });
@@ -47,7 +47,7 @@ test("Should not enroll duplicated student", function () {
         },
         level: "EM",
         module: "1",
-        class: "A"
+        classroom: "A"
     };
     enrollStudent.execute(enrollmentRequest);
     expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(new Error("Enrollment with duplicated student is not allowed"));
@@ -61,7 +61,7 @@ test("Should generate enrollment code", function () {
         },
         level: "EM",
         module: "1",
-        class: "A"
+        classroom: "A"
     };
     const enrollment = enrollStudent.execute(enrollmentRequest);
     expect(enrollment.code).toBe("2021EM1A0001");
@@ -76,12 +76,12 @@ test("Should not enroll student below minimum age", function () {
         },
         level: "EM",
         module: "1",
-        class: "A"
+        classroom: "A"
     };
     expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(new Error("Student below minimum age"));
 });
 
-test("Should not enroll student over class capacity", function () {
+test("Should not enroll student over classroom capacity", function () {
     enrollStudent.execute({
         student: {
             name: "Ana Maria",
@@ -89,7 +89,7 @@ test("Should not enroll student over class capacity", function () {
         },
         level: "EM",
         module: "1",
-        class: "A"
+        classroom: "A"
     });
     enrollStudent.execute({
         student: {
@@ -98,7 +98,7 @@ test("Should not enroll student over class capacity", function () {
         },
         level: "EM",
         module: "1",
-        class: "A"
+        classroom: "A"
     });
     const enrollmentRequest = {
         student: {
@@ -107,7 +107,7 @@ test("Should not enroll student over class capacity", function () {
         },
         level: "EM",
         module: "1",
-        class: "A"
+        classroom: "A"
     };
-    expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(new Error("Class is over capacity"));
+    expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(new Error("Classroom is over capacity"));
 });

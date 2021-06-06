@@ -4,14 +4,14 @@ export default class Enrollment {
     student: Student;
     level: string;
     module: string;
-    clazz: string;
+    classroom: string;
     code: string;
     
-    constructor (student: Student, level: string, module: string, clazz: string, code: string) {
+    constructor (student: Student, level: string, module: string, classroom: string, code: string) {
         this.student = student;
         this.level = level;
         this.module = module;
-        this.clazz = clazz;
+        this.classroom = classroom;
         this.code = code;
     }
 }
