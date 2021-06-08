@@ -1,3 +1,5 @@
+import Classroom from "./Classroom";
+
 export default interface ClassroomRepository {
-    findByCode(code: string): any;
+    findByCode(code: string): Classroom;
 }

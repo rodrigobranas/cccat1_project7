@@ -64,7 +64,7 @@ test("Should generate enrollment code", function () {
         classroom: "A"
     };
     const enrollment = enrollStudent.execute(enrollmentRequest);
-    expect(enrollment.code).toBe("2021EM1A0001");
+    expect(enrollment.code.value).toBe("2021EM1A0001");
 });
 
 test("Should not enroll student below minimum age", function () {
@@ -110,4 +110,47 @@ test("Should not enroll student over classroom capacity", function () {
         classroom: "A"
     };
     expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(new Error("Classroom is over capacity"));
+});
+
+test("Should not enroll after the end of classes", function () {
+    const enrollmentRequest = {
+        student: {
+            name: "Ana Maria",
+            cpf: "864.464.227-84"
+        },
+        level: "EM",
+        module: "1",
+        classroom: "B"
+    };
+    expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(new Error("Class is already finished"));
+});
+
+test("Should not enroll after 25% of the start of the class", function () {
+    const enrollmentRequest = {
+        student: {
+            name: "Ana Maria",
+            cpf: "864.464.227-84"
+        },
+        level: "EM",
+        module: "1",
+        classroom: "C"
+    };
+    expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(new Error("Class is already started"));
+});
+
+test("Should generate invoices", function () {
+    const enrollmentRequest = {
+        student: {
+            name: "Ana Maria",
+            cpf: "864.464.227-84"
+        },
+        level: "EM",
+        module: "1",
+        classroom: "A",
+        installments: 12
+    };
+    const enrollment = enrollStudent.execute(enrollmentRequest);
+    expect(enrollment.invoices).toHaveLength(12);
+    expect(enrollment.invoices[0].amount).toBe(1416.66);
+    expect(enrollment.invoices[11].amount).toBe(1416.73);
 });
