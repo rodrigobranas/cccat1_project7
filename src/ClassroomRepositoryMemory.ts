@@ -2,7 +2,7 @@ import Classroom from "./Classroom";
 import ClassroomRepository from "./ClassroomRepository";
 
 export default class ClassroomRepositoryMemory implements ClassroomRepository {
-    classrooms: any[];
+    classrooms: Classroom[];
 
     constructor () {
         this.classrooms = [

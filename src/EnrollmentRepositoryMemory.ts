@@ -3,9 +3,15 @@ import EnrollmentRepository from "./EnrollmentRepository";
 
 export default class EnrollmentRepositoryMemory implements EnrollmentRepository {
     enrollments: Enrollment[];
+    uuid: number;
 
     constructor () {
         this.enrollments = [];
+        this.uuid = Math.floor(Math.random() * 1000);
+    }
+    get(code: string): Enrollment | undefined {
+        const enrollment = this.enrollments.find(enrollment => enrollment.code.value === code);
+        return enrollment;
     }
 
     save(enrollment: Enrollment): void {
