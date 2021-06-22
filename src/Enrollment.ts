@@ -15,6 +15,7 @@ export default class Enrollment {
     sequence: number;
     issueDate: Date;
     installments: number;
+    status: string;
     invoices: Invoice[];
     
     constructor (student: Student, level: Level, module: Module, classroom: Classroom, issueDate: Date, sequence: number, installments: number = 12) {
@@ -30,6 +31,7 @@ export default class Enrollment {
         this.code = new EnrollmentCode(level.code, module.code, classroom.code, issueDate, sequence);
         this.invoices = [];
         this.installments = installments;
+        this.status = "active";
         this.generateInvoices();
     }
 
@@ -58,9 +60,15 @@ export default class Enrollment {
         return invoice;
     }
 
-    payInvoice (month: number, year: number, amount: number) {
+    payInvoice (month: number, year: number, amount: number, paymentDate: Date) {
         const invoice = this.getInvoice(month, year);
         if (!invoice) throw new Error("Invalid invoice");
+        if (invoice.getStatus(paymentDate) === "overdue") {
+            const penalty = invoice.getPenalty(paymentDate);
+            const interests = invoice.getInterests(paymentDate);
+            invoice.addEvent(new InvoiceEvent("penalty", penalty));
+            invoice.addEvent(new InvoiceEvent("interests", interests));
+        }
         invoice.addEvent(new InvoiceEvent("payment", amount));
     }
 }
