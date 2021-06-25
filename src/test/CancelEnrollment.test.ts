@@ -15,7 +15,7 @@ beforeEach(function () {
     cancelEnrollment = new CancelEnrollment(repositoryMemoryFactory);
 });
 
-test("Should cancel enrollment", function () {
+test("Should cancel enrollment", async function () {
     const enrollmentRequest = new EnrollStudentInputData({
         studentName: "Ana Maria",
         studentCpf: "864.464.227-84",
@@ -25,8 +25,8 @@ test("Should cancel enrollment", function () {
         classroom: "A",
         installments: 12
     });
-    enrollStudent.execute(enrollmentRequest);
-    cancelEnrollment.execute("2021EM1A0001");
-    const getEnrollmentOutputData = getEnrollment.execute("2021EM1A0001", new Date("2021-06-20"));
+    await enrollStudent.execute(enrollmentRequest);
+    await cancelEnrollment.execute("2021EM1A0001");
+    const getEnrollmentOutputData = await getEnrollment.execute("2021EM1A0001", new Date("2021-06-20"));
     expect(getEnrollmentOutputData.status).toBe("cancelled");
 });

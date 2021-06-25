@@ -9,8 +9,8 @@ export default class PayInvoice {
         this.enrollmentRepository = repositoryFactory.createEnrollmentRepository();
     }
     
-    execute (payInvoiceInputData: PayInvoiceInputData): any {
-        const enrollment = this.enrollmentRepository.get(payInvoiceInputData.code);
+    async execute (payInvoiceInputData: PayInvoiceInputData): Promise<void> {
+        const enrollment = await this.enrollmentRepository.get(payInvoiceInputData.code);
         if (!enrollment) throw new Error("Enrollment not found");
         enrollment.payInvoice(payInvoiceInputData.month, payInvoiceInputData.year, payInvoiceInputData.amount, payInvoiceInputData.paymentDate);
     }

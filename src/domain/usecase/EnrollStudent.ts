@@ -21,19 +21,19 @@ export default class EnrollStudent {
         this.enrollmentRepository = repositoryFactory.createEnrollmentRepository();
     }
     
-    execute (enrollStudentInputData: EnrollStudentInputData): EnrollStudentOutputData {
+    async execute (enrollStudentInputData: EnrollStudentInputData): Promise<EnrollStudentOutputData> {
         const student = new Student(enrollStudentInputData.studentName, enrollStudentInputData.studentCpf, enrollStudentInputData.studentBirthDate);
-        const level = this.levelRepository.findByCode(enrollStudentInputData.level);
-        const module = this.moduleRepository.findByCode(enrollStudentInputData.level, enrollStudentInputData.module);
-        const classroom = this.classroomRepository.findByCode(enrollStudentInputData.classroom);
-        const studentsEnrolledInClassroom = this.enrollmentRepository.findAllByClassroom(level.code, module.code, classroom.code);
+        const level = await this.levelRepository.findByCode(enrollStudentInputData.level);
+        const module = await this.moduleRepository.findByCode(enrollStudentInputData.level, enrollStudentInputData.module);
+        const classroom = await this.classroomRepository.findByCode(enrollStudentInputData.classroom);
+        const studentsEnrolledInClassroom = await this.enrollmentRepository.findAllByClassroom(level.code, module.code, classroom.code);
         if (studentsEnrolledInClassroom.length === classroom.capacity) throw new Error("Classroom is over capacity");
-        const existingEnrollment = this.enrollmentRepository.findByCpf(enrollStudentInputData.studentCpf);
+        const existingEnrollment = await this.enrollmentRepository.findByCpf(enrollStudentInputData.studentCpf);
         if (existingEnrollment) throw new Error("Enrollment with duplicated student is not allowed");
-        const enrollmentSequence = this.enrollmentRepository.count() + 1;
+        const enrollmentSequence = await this.enrollmentRepository.count() + 1;
         const issueDate = new Date();
         const enrollment = new Enrollment(student, level, module, classroom, issueDate, enrollmentSequence, enrollStudentInputData.installments);
-        this.enrollmentRepository.save(enrollment);
+        await this.enrollmentRepository.save(enrollment);
         const enrollStudentOutputData = new EnrollStudentOutputData(enrollment.code.value);
         for (const invoice of enrollment.invoices) {
             enrollStudentOutputData.invoices.push(invoice.clone());

@@ -9,21 +9,29 @@ export default class EnrollmentRepositoryMemory implements EnrollmentRepository 
         this.enrollments = [];
         this.uuid = Math.floor(Math.random() * 1000);
     }
-    get(code: string): Enrollment | undefined {
+
+    async get(code: string): Promise<Enrollment> {
         const enrollment = this.enrollments.find(enrollment => enrollment.code.value === code);
-        return enrollment;
+        if (!enrollment) throw new Error("Enrollment not found");
+        return Promise.resolve(enrollment);
     }
 
-    save(enrollment: Enrollment): void {
+    async save(enrollment: Enrollment): Promise<void> {
         this.enrollments.push(enrollment);
     }
-    findAllByClassroom(level: string, module: string, classroom: string) {
-        return this.enrollments.filter(enrollment => enrollment.level.code === level && enrollment.module.code === module && enrollment.classroom.code === classroom);
+
+    async findAllByClassroom(level: string, module: string, classroom: string) {
+        const enrollments = this.enrollments.filter(enrollment => enrollment.level.code === level && enrollment.module.code === module && enrollment.classroom.code === classroom);
+        return Promise.resolve(enrollments);
     }
-    findByCpf(cpf: string) {
-        return this.enrollments.find(enrollment => enrollment.student.cpf.value === cpf);
+
+    async findByCpf(cpf: string) {
+        const enrollment = this.enrollments.find(enrollment => enrollment.student.cpf.value === cpf);
+        return Promise.resolve(enrollment);
     }
-    count(): number {
-        return this.enrollments.length;
+    
+    async count(): Promise<number> {
+        const count = this.enrollments.length;
+        return Promise.resolve(count);
     }
 }

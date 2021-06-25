@@ -9,10 +9,9 @@ export default class GetEnrollment {
         this.enrollmentRepository = repositoryFactory.createEnrollmentRepository();
     }
     
-    execute (code: string, currentDate: Date): GetEnrollmentOutputData {
-        const enrollment = this.enrollmentRepository.get(code);
-        if (!enrollment) throw new Error("Enrollment not found");
-        const balance = enrollment?.getInvoiceBalance();
+    async execute (code: string, currentDate: Date): Promise<GetEnrollmentOutputData> {
+        const enrollment = await this.enrollmentRepository.get(code);
+        const balance = enrollment.getInvoiceBalance();
         const getEnrollmentOutputData = new GetEnrollmentOutputData({
             code: enrollment.code.value,
             balance,

@@ -16,7 +16,7 @@ beforeEach(function () {
     payInvoice = new PayInvoice(repositoryMemoryFactory);
 });
 
-test("Should pay enrollment invoice", function () {
+test("Should pay enrollment invoice", async function () {
     const enrollmentRequest = new EnrollStudentInputData({
         studentName: "Ana Maria",
         studentCpf: "864.464.227-84",
@@ -26,20 +26,20 @@ test("Should pay enrollment invoice", function () {
         classroom: "A",
         installments: 12
     });
-    enrollStudent.execute(enrollmentRequest);
-    payInvoice.execute(new PayInvoiceInputData({
+    await enrollStudent.execute(enrollmentRequest);
+    await payInvoice.execute(new PayInvoiceInputData({
         code: "2021EM1A0001", 
         month: 7, 
         year: 2021, 
         amount: 1416.66,
         paymentDate: new Date("2021-06-20")
     }));
-    const getEnrollmentOutputData = getEnrollment.execute("2021EM1A0001", new Date("2021-06-20"));
+    const getEnrollmentOutputData = await getEnrollment.execute("2021EM1A0001", new Date("2021-06-20"));
     expect(getEnrollmentOutputData.code).toBe("2021EM1A0001");
     expect(getEnrollmentOutputData.balance).toBe(15583.33);
 });
 
-test("Should pay overdue invoice", function () {
+test("Should pay overdue invoice", async function () {
     const enrollmentRequest = new EnrollStudentInputData({
         studentName: "Ana Maria",
         studentCpf: "864.464.227-84",
@@ -49,16 +49,16 @@ test("Should pay overdue invoice", function () {
         classroom: "A",
         installments: 12
     });
-    enrollStudent.execute(enrollmentRequest);
-    const getEnrollmentOutputDataBefore = getEnrollment.execute("2021EM1A0001", new Date("2021-06-20"));
-    payInvoice.execute(new PayInvoiceInputData({
+    await enrollStudent.execute(enrollmentRequest);
+    const getEnrollmentOutputDataBefore = await getEnrollment.execute("2021EM1A0001", new Date("2021-06-20"));
+    await payInvoice.execute(new PayInvoiceInputData({
         code: "2021EM1A0001", 
         month: 1, 
         year: 2021, 
         amount: 3895.82,
         paymentDate: new Date("2021-06-20")
     }));
-    const getEnrollmentOutputDataAfter = getEnrollment.execute("2021EM1A0001", new Date("2021-06-20"));
+    const getEnrollmentOutputDataAfter = await getEnrollment.execute("2021EM1A0001", new Date("2021-06-20"));
     expect(getEnrollmentOutputDataAfter.code).toBe("2021EM1A0001");
     expect(getEnrollmentOutputDataAfter.invoices[0].balance).toBe(0);
 });

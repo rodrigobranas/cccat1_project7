@@ -12,7 +12,7 @@ beforeEach(function () {
     getEnrollment = new GetEnrollment(repositoryMemoryFactory);
 });
 
-test("Should get enrollment with balance", function () {
+test("Should get enrollment with balance", async function () {
     const enrollmentRequest = new EnrollStudentInputData({
         studentName: "Ana Maria",
         studentCpf: "864.464.227-84",
@@ -22,8 +22,8 @@ test("Should get enrollment with balance", function () {
         classroom: "A",
         installments: 12
     });
-    enrollStudent.execute(enrollmentRequest);
-    const getEnrollmentOutputData = getEnrollment.execute("2021EM1A0001", new Date("2021-06-20"));
+    await enrollStudent.execute(enrollmentRequest);
+    const getEnrollmentOutputData = await getEnrollment.execute("2021EM1A0001", new Date("2021-06-20"));
     expect(getEnrollmentOutputData.code).toBe("2021EM1A0001");
     expect(getEnrollmentOutputData.balance).toBe(16999.99);
 });
@@ -39,7 +39,7 @@ test("Should calculate due date and return status open or overdue for each invoi
         installments: 12
     });
     await enrollStudent.execute(enrollmentRequest);
-    const getEnrollmentOutputData = getEnrollment.execute("2021EM1A0001", new Date("2021-06-20"));
+    const getEnrollmentOutputData = await getEnrollment.execute("2021EM1A0001", new Date("2021-06-20"));
     expect(getEnrollmentOutputData.code).toBe("2021EM1A0001");
     expect(getEnrollmentOutputData.invoices[0].dueDate.toISOString()).toBe("2021-01-05T03:00:00.000Z");
     expect(getEnrollmentOutputData.invoices[0].status).toBe("overdue");
@@ -47,7 +47,7 @@ test("Should calculate due date and return status open or overdue for each invoi
     expect(getEnrollmentOutputData.invoices[11].status).toBe("open");
 });
 
-test("Should calculate penalty and interests", function () {
+test("Should calculate penalty and interests", async function () {
     const enrollmentRequest = new EnrollStudentInputData({
         studentName: "Ana Maria",
         studentCpf: "864.464.227-84",
@@ -57,8 +57,8 @@ test("Should calculate penalty and interests", function () {
         classroom: "A",
         installments: 12
     });
-    enrollStudent.execute(enrollmentRequest);
-    const getEnrollmentOutputData = getEnrollment.execute("2021EM1A0001", new Date("2021-06-20"));
+    await enrollStudent.execute(enrollmentRequest);
+    const getEnrollmentOutputData = await getEnrollment.execute("2021EM1A0001", new Date("2021-06-20"));
     expect(getEnrollmentOutputData.code).toBe("2021EM1A0001");
     expect(getEnrollmentOutputData.invoices[0].penalty).toBe(141.67);
     expect(getEnrollmentOutputData.invoices[0].interests).toBe(2337.49);
