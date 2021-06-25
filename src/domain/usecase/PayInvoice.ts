@@ -13,5 +13,6 @@ export default class PayInvoice {
         const enrollment = await this.enrollmentRepository.get(payInvoiceInputData.code);
         if (!enrollment) throw new Error("Enrollment not found");
         enrollment.payInvoice(payInvoiceInputData.month, payInvoiceInputData.year, payInvoiceInputData.amount, payInvoiceInputData.paymentDate);
+        await this.enrollmentRepository.update(enrollment);
     }
 }

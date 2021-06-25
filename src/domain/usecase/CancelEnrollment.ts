@@ -12,5 +12,6 @@ export default class CancelEnrollment {
         const enrollment = await this.enrollmentRepository.get(code);
         if (!enrollment) throw new Error("Enrollment not found");
         enrollment.status = "cancelled";
+        await this.enrollmentRepository.update(enrollment);
     }
 }

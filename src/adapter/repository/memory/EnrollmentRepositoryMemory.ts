@@ -20,6 +20,11 @@ export default class EnrollmentRepositoryMemory implements EnrollmentRepository 
         this.enrollments.push(enrollment);
     }
 
+    async update(enrollment: Enrollment): Promise<void> {
+        const position = this.enrollments.indexOf(enrollment);
+        this.enrollments.splice(position, 1, enrollment);
+    }
+
     async findAllByClassroom(level: string, module: string, classroom: string) {
         const enrollments = this.enrollments.filter(enrollment => enrollment.level.code === level && enrollment.module.code === module && enrollment.classroom.code === classroom);
         return Promise.resolve(enrollments);
