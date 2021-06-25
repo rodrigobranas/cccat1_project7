@@ -1,5 +1,5 @@
-import Module from "./Module";
-import ModuleRepository from "./ModuleRepository";
+import Module from "../../../domain/entity/Module";
+import ModuleRepository from "../../../domain/repository/ModuleRepository";
 
 export default class ModuleRepositoryMemory implements ModuleRepository {
     modules: Module[];

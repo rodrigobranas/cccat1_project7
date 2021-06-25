@@ -1,5 +1,5 @@
-import Classroom from "./Classroom";
-import ClassroomRepository from "./ClassroomRepository";
+import Classroom from "../../../domain/entity/Classroom";
+import ClassroomRepository from "../../../domain/repository/ClassroomRepository";
 
 export default class ClassroomRepositoryMemory implements ClassroomRepository {
     classrooms: Classroom[];

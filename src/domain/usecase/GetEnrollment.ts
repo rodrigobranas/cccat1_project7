@@ -1,13 +1,6 @@
-import ClassroomRepository from "./ClassroomRepository";
-import Enrollment from "./Enrollment";
-import EnrollmentRepository from "./EnrollmentRepository";
-import EnrollStudentInputData from "./EnrollStudentInputData";
-import EnrollStudentOutputData from "./EnrollStudentOutputData";
+import RepositoryAbstractFactory from "../factory/RepositoryAbstractFactory";
+import EnrollmentRepository from "../repository/EnrollmentRepository";
 import GetEnrollmentOutputData from "./GetEnrollmentOutputData";
-import LevelRepository from "./LevelRepository";
-import ModuleRepository from "./ModuleRepository";
-import RepositoryAbstractFactory from "./RepositoryAbstractFactory";
-import Student from "./Student";
 
 export default class GetEnrollment {
     enrollmentRepository: EnrollmentRepository;

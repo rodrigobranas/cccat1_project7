@@ -1,9 +1,8 @@
-import ClassroomRepositoryMemory from "./ClassroomRepositoryMemory";
-import EnrollmentRepositoryMemory from "./EnrollmentRepositoryMemory";
-import EnrollmentRepositoryMemorySingleton from "./EnrollmentRepositoryMemorySingleton";
-import LevelRepositoryMemory from "./LevelRepositoryMemory";
-import ModuleRepositoryMemory from "./ModuleRepositoryMemory";
-import RepositoryAbstractFactory from "./RepositoryAbstractFactory";
+import RepositoryAbstractFactory from "../../domain/factory/RepositoryAbstractFactory";
+import ClassroomRepositoryMemory from "../repository/memory/ClassroomRepositoryMemory";
+import EnrollmentRepositoryMemorySingleton from "../repository/memory/EnrollmentRepositoryMemorySingleton";
+import LevelRepositoryMemory from "../repository/memory/LevelRepositoryMemory";
+import ModuleRepositoryMemory from "../repository/memory/ModuleRepositoryMemory";
 
 export default class RepositoryMemoryFactory implements RepositoryAbstractFactory {
 

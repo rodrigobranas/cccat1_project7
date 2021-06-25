@@ -1,6 +1,6 @@
-import EnrollmentRepository from "./EnrollmentRepository";
+import RepositoryAbstractFactory from "../factory/RepositoryAbstractFactory";
+import EnrollmentRepository from "../repository/EnrollmentRepository";
 import PayInvoiceInputData from "./PayInvoiceInputData";
-import RepositoryAbstractFactory from "./RepositoryAbstractFactory";
 
 export default class PayInvoice {
     enrollmentRepository: EnrollmentRepository;

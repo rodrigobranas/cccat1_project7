@@ -1,4 +1,4 @@
-import Classroom from "./Classroom";
+import Classroom from "../entity/Classroom";
 
 export default interface ClassroomRepository {
     findByCode(code: string): Classroom;

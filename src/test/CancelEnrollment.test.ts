@@ -1,8 +1,8 @@
-import CancelEnrollment from "./CancelEnrollment";
-import EnrollStudent from "./EnrollStudent";
-import EnrollStudentInputData from "./EnrollStudentInputData";
-import GetEnrollment from "./GetEnrollment";
-import RepositoryMemoryFactory from "./RepositoryMemoryFactory";
+import RepositoryMemoryFactory from "../adapter/factory/RepositoryMemoryFactory";
+import CancelEnrollment from "../domain/usecase/CancelEnrollment";
+import EnrollStudent from "../domain/usecase/EnrollStudent";
+import EnrollStudentInputData from "../domain/usecase/EnrollStudentInputData";
+import GetEnrollment from "../domain/usecase/GetEnrollment";
 
 let enrollStudent: EnrollStudent;
 let getEnrollment: GetEnrollment;
