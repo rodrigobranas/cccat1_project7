@@ -32,6 +32,7 @@ create table system.student (
 
 create table system.enrollment (
     code text primary key,
+    sequence integer,
     level text,
     module text,
     classroom text,
