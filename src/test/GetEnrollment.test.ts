@@ -1,6 +1,6 @@
 import RepositoryMemoryFactory from "../adapter/factory/RepositoryMemoryFactory";
+import EnrollStudentInputData from "../domain/usecase/data/EnrollStudentInputData";
 import EnrollStudent from "../domain/usecase/EnrollStudent";
-import EnrollStudentInputData from "../domain/usecase/EnrollStudentInputData";
 import GetEnrollment from "../domain/usecase/GetEnrollment";
 
 let enrollStudent: EnrollStudent;

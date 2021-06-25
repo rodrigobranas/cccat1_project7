@@ -1,6 +1,6 @@
 import RepositoryAbstractFactory from "../factory/RepositoryAbstractFactory";
 import EnrollmentRepository from "../repository/EnrollmentRepository";
-import GetEnrollmentOutputData from "./GetEnrollmentOutputData";
+import GetEnrollmentOutputData from "./data/GetEnrollmentOutputData";
 
 export default class GetEnrollment {
     enrollmentRepository: EnrollmentRepository;

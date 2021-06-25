@@ -5,8 +5,8 @@ import ClassroomRepository from "../repository/ClassroomRepository";
 import EnrollmentRepository from "../repository/EnrollmentRepository";
 import LevelRepository from "../repository/LevelRepository";
 import ModuleRepository from "../repository/ModuleRepository";
-import EnrollStudentInputData from "./EnrollStudentInputData";
-import EnrollStudentOutputData from "./EnrollStudentOutputData";
+import EnrollStudentInputData from "./data/EnrollStudentInputData";
+import EnrollStudentOutputData from "./data/EnrollStudentOutputData";
 
 export default class EnrollStudent {
     levelRepository: LevelRepository;
