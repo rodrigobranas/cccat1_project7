@@ -1,3 +1,4 @@
+import RepositoryDatabaseFactory from "../adapter/factory/RepositoryDatabaseFactory";
 import RepositoryMemoryFactory from "../adapter/factory/RepositoryMemoryFactory";
 import EnrollStudentInputData from "../domain/usecase/data/EnrollStudentInputData";
 import EnrollStudent from "../domain/usecase/EnrollStudent";
@@ -6,6 +7,8 @@ let enrollStudent: EnrollStudent;
 
 beforeEach(function () {
     enrollStudent = new EnrollStudent(new RepositoryMemoryFactory());
+    // alterar aqui para ativar o banco de dados (não se esqueça de rodar o arquivo create.sql)
+    // enrollStudent = new EnrollStudent(new RepositoryDatabaseFactory());
 });
 
 test("Should not enroll without valid student name", async function () {

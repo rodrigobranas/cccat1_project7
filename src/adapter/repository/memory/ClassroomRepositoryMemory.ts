@@ -33,7 +33,7 @@ export default class ClassroomRepositoryMemory implements ClassroomRepository {
         ];
     }
 
-    findByCode(code: string) {
+    async findByCode(code: string) {
         const classroom = this.classrooms.find(classroom => classroom.code === code);
         if (!classroom) throw new Error("Classroom not found");
         return Promise.resolve(classroom);

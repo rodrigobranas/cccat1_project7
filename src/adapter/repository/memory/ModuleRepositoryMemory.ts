@@ -93,7 +93,7 @@ export default class ModuleRepositoryMemory implements ModuleRepository {
 		];
     }
 
-    findByCode(level: string, code: string) {
+    async findByCode(level: string, code: string) {
         const module = this.modules.find(module => module.level === level && module.code === code);
         if (!module) throw new Error("Module not found");
         return Promise.resolve(module);
