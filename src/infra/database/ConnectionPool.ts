@@ -9,7 +9,17 @@ export default class ConnectionPool {
     static getInstance () {
         if (!ConnectionPool.instance) {
             const pgp = pgPromise({ 
-                pgFormatting: true
+                pgFormatting: true,
+				error(err, e) {
+					console.error(err);
+					if (e.query) {
+						console.error("erro na query: ");
+						console.error(e.query);
+						if (e.params) {
+							console.error(e.params);
+						}
+					}
+				}
             });
             pgp.pg.types.setTypeParser(1700, (value) => {
                 return parseFloat(value);
@@ -34,5 +44,13 @@ export default class ConnectionPool {
 
     static one (statement: string, params: any[]): Promise<any> {
         return ConnectionPool.getInstance().one(statement, params);
+    }
+
+	static oneOrNone (statement: string, params: any[]): Promise<any> {
+        return ConnectionPool.getInstance().oneOrNone(statement, params);
+    }
+
+	static none (statement: string, params: any[]): Promise<any> {
+        return ConnectionPool.getInstance().none(statement, params);
     }
 }

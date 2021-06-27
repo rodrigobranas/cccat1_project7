@@ -1,14 +1,15 @@
 import RepositoryDatabaseFactory from "../adapter/factory/RepositoryDatabaseFactory";
 import RepositoryMemoryFactory from "../adapter/factory/RepositoryMemoryFactory";
+import EnrollmentRepositoryDatabase from "../adapter/repository/database/EnrollmentRepositoryDatabase";
 import EnrollStudentInputData from "../domain/usecase/data/EnrollStudentInputData";
 import EnrollStudent from "../domain/usecase/EnrollStudent";
 
 let enrollStudent: EnrollStudent;
 
 beforeEach(function () {
-    enrollStudent = new EnrollStudent(new RepositoryMemoryFactory());
+    // enrollStudent = new EnrollStudent(new RepositoryMemoryFactory());
     // alterar aqui para ativar o banco de dados (não se esqueça de rodar o arquivo create.sql)
-    // enrollStudent = new EnrollStudent(new RepositoryDatabaseFactory());
+    enrollStudent = new EnrollStudent(new RepositoryDatabaseFactory());
 });
 
 test("Should not enroll without valid student name", async function () {
@@ -149,4 +150,9 @@ test("Should generate invoices", async function () {
     expect(enrollment.invoices).toHaveLength(12);
     expect(enrollment.invoices[0].amount).toBe(1416.66);
     expect(enrollment.invoices[11].amount).toBe(1416.73);
+});
+
+afterEach(async function () {
+	const enrollmentRepository = new EnrollmentRepositoryDatabase();
+	await enrollmentRepository.clean();
 });

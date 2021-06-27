@@ -4,16 +4,19 @@ import EnrollStudent from "../domain/usecase/EnrollStudent";
 import GetEnrollment from "../domain/usecase/GetEnrollment";
 import PayInvoice from "../domain/usecase/PayInvoice";
 import PayInvoiceInputData from "../domain/usecase/data/PayInvoiceInputData";
+import RepositoryDatabaseFactory from "../adapter/factory/RepositoryDatabaseFactory";
+import EnrollmentRepositoryDatabase from "../adapter/repository/database/EnrollmentRepositoryDatabase";
 
 let enrollStudent: EnrollStudent;
 let getEnrollment: GetEnrollment;
 let payInvoice: PayInvoice;
 
 beforeEach(function () {
-    const repositoryMemoryFactory = new RepositoryMemoryFactory()
-    enrollStudent = new EnrollStudent(repositoryMemoryFactory);
-    getEnrollment = new GetEnrollment(repositoryMemoryFactory);
-    payInvoice = new PayInvoice(repositoryMemoryFactory);
+    // enrollStudent = new EnrollStudent(new RepositoryMemoryFactory());
+    // alterar aqui para ativar o banco de dados (não se esqueça de rodar o arquivo create.sql)
+    enrollStudent = new EnrollStudent(new RepositoryDatabaseFactory());
+    getEnrollment = new GetEnrollment(new RepositoryDatabaseFactory());
+    payInvoice = new PayInvoice(new RepositoryDatabaseFactory());
 });
 
 test("Should pay enrollment invoice", async function () {
@@ -61,4 +64,9 @@ test("Should pay overdue invoice", async function () {
     const getEnrollmentOutputDataAfter = await getEnrollment.execute("2021EM1A0001", new Date("2021-06-20"));
     expect(getEnrollmentOutputDataAfter.code).toBe("2021EM1A0001");
     expect(getEnrollmentOutputDataAfter.invoices[0].balance).toBe(0);
+});
+
+afterEach(async function () {
+	const enrollmentRepository = new EnrollmentRepositoryDatabase();
+	await enrollmentRepository.clean();
 });

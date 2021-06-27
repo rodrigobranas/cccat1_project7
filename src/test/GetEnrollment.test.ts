@@ -1,4 +1,6 @@
+import RepositoryDatabaseFactory from "../adapter/factory/RepositoryDatabaseFactory";
 import RepositoryMemoryFactory from "../adapter/factory/RepositoryMemoryFactory";
+import EnrollmentRepositoryDatabase from "../adapter/repository/database/EnrollmentRepositoryDatabase";
 import EnrollStudentInputData from "../domain/usecase/data/EnrollStudentInputData";
 import EnrollStudent from "../domain/usecase/EnrollStudent";
 import GetEnrollment from "../domain/usecase/GetEnrollment";
@@ -7,9 +9,10 @@ let enrollStudent: EnrollStudent;
 let getEnrollment: GetEnrollment;
 
 beforeEach(function () {
-    const repositoryMemoryFactory = new RepositoryMemoryFactory()
-    enrollStudent = new EnrollStudent(repositoryMemoryFactory);
-    getEnrollment = new GetEnrollment(repositoryMemoryFactory);
+    // enrollStudent = new EnrollStudent(new RepositoryMemoryFactory());
+    // alterar aqui para ativar o banco de dados (não se esqueça de rodar o arquivo create.sql)
+    enrollStudent = new EnrollStudent(new RepositoryDatabaseFactory());
+    getEnrollment = new GetEnrollment(new RepositoryDatabaseFactory());
 });
 
 test("Should get enrollment with balance", async function () {
@@ -64,4 +67,9 @@ test("Should calculate penalty and interests", async function () {
     expect(getEnrollmentOutputData.invoices[0].interests).toBe(2337.49);
     expect(getEnrollmentOutputData.invoices[11].penalty).toBe(0);
     expect(getEnrollmentOutputData.invoices[11].interests).toBe(0);
+});
+
+afterEach(async function () {
+	const enrollmentRepository = new EnrollmentRepositoryDatabase();
+	await enrollmentRepository.clean();
 });
