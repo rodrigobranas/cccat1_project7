@@ -1,6 +1,6 @@
 import express from "express";
 import RepositoryAbstractFactory from "../../domain/factory/RepositoryAbstractFactory";
-import EnrollmentController from "../../main/EnrollmentController";
+import EnrollmentController from "../../adapter/controller/EnrollmentController";
 
 export default class HttpServer {
 

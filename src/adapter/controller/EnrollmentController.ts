@@ -1,9 +1,9 @@
-import RepositoryAbstractFactory from "../domain/factory/RepositoryAbstractFactory";
-import EnrollStudentInputData from "../domain/usecase/data/EnrollStudentInputData";
-import EnrollStudentOutputData from "../domain/usecase/data/EnrollStudentOutputData";
-import GetEnrollmentOutputData from "../domain/usecase/data/GetEnrollmentOutputData";
-import EnrollStudent from "../domain/usecase/EnrollStudent";
-import GetEnrollment from "../domain/usecase/GetEnrollment";
+import RepositoryAbstractFactory from "../../domain/factory/RepositoryAbstractFactory";
+import EnrollStudentInputData from "../../domain/usecase/data/EnrollStudentInputData";
+import EnrollStudentOutputData from "../../domain/usecase/data/EnrollStudentOutputData";
+import GetEnrollmentOutputData from "../../domain/usecase/data/GetEnrollmentOutputData";
+import EnrollStudent from "../../domain/usecase/EnrollStudent";
+import GetEnrollment from "../../domain/usecase/GetEnrollment";
 
 export default class EnrollmentController {
     repositoryFactory: RepositoryAbstractFactory;
