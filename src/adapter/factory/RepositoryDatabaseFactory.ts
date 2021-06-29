@@ -5,7 +5,7 @@ import LevelRepositoryDatabase from "../repository/database/LevelRepositoryDatab
 import ModuleRepositoryDatabase from "../repository/database/ModuleRepositoryDatabase";
 import EnrollmentRepositoryMemorySingleton from "../repository/memory/EnrollmentRepositoryMemorySingleton";
 
-export default class RepositoryMemoryFactory implements RepositoryAbstractFactory {
+export default class RepositoryDatabaseFactory implements RepositoryAbstractFactory {
 
     constructor () {
     }
@@ -15,14 +15,14 @@ export default class RepositoryMemoryFactory implements RepositoryAbstractFactor
     }
 
     createModuleRepository () {
-		return new ModuleRepositoryDatabase();
+        return new ModuleRepositoryDatabase();
     }
 
     createClassroomRepository () {
-		return new ClassroomRepositoryDatabase();
+        return new ClassroomRepositoryDatabase();
     }
 
     createEnrollmentRepository () {
-		return new EnrollmentRepositoryDatabase();
+        return new EnrollmentRepositoryDatabase();
     }
 }

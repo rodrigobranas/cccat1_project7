@@ -4,19 +4,15 @@ import ConnectionPool from "../../../infra/database/ConnectionPool";
 
 export default class ClassroomRepositoryDatabase implements ClassroomRepository {
 
-    constructor () {
-    }
-
-    async findByCode(code: string) {
-		const classroomData = await ConnectionPool.one("select * from system.classroom where code = $1", [code]);
-        if (!classroomData) throw new Error("Classroom not found");
-		return new Classroom({
-			level: classroomData.level,
-			module: classroomData.module,
-			code: classroomData.code,
-			capacity: classroomData.capacity,
-			startDate: classroomData.start_date,
-			endDate: classroomData.end_date
-		});
+    async findByCode(code: string): Promise<Classroom> {
+        const classroomData = await ConnectionPool.one("select * from system.classroom where code = $1", [code]);
+        return new Classroom({
+            level: classroomData.level,
+            module: classroomData.module,
+            code: classroomData.code,
+            capacity: classroomData.capacity,
+            startDate: classroomData.start_date,
+            endDate: classroomData.end_date
+        });
     }
 }

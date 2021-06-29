@@ -2,7 +2,7 @@ import Level from "../../../domain/entity/Level";
 import LevelRepository from "../../../domain/repository/LevelRepository";
 import ConnectionPool from "../../../infra/database/ConnectionPool";
 
-export default class LevelRepositoryMemory implements LevelRepository {
+export default class LevelRepositoryDatabase implements LevelRepository {
     
     constructor () {
     }
