@@ -10,6 +10,6 @@ export default class PayInvoiceInputData {
         this.month = month;
         this.year = year;
         this.amount = amount;
-        this.paymentDate = paymentDate;
+        this.paymentDate = (paymentDate instanceof Date) ? paymentDate : new Date(paymentDate);
     }
 }

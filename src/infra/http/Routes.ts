@@ -18,6 +18,8 @@ export default class Router {
         router.post("/enrollments", ExpressConverter.execute(enrollmentController.enrollStudent.bind(enrollmentController)));
         router.get("/enrollments/:code", ExpressConverter.execute(enrollmentController.getEnrollment.bind(enrollmentController)));
         router.get("/enrollments", ExpressConverter.execute(enrollmentController.getEnrollments.bind(enrollmentController)));
+        router.post("/enrollments/:code/cancel", ExpressConverter.execute(enrollmentController.cancelEnrollment.bind(enrollmentController)));
+        router.post("/enrollments/:code/pay", ExpressConverter.execute(enrollmentController.payInvoice.bind(enrollmentController)));
         return router;
     }
 }

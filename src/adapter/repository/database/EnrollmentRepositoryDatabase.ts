@@ -19,7 +19,7 @@ export default class EnrollmentRepositoryDatabase implements EnrollmentRepositor
         this.classroomRepository = new ClassroomRepositoryDatabase();
     }
     async getAll(): Promise<Enrollment[]> {
-        const enrollmentsData = await ConnectionPool.query("select code from system.enrollment", []);
+        const enrollmentsData = await ConnectionPool.query("select code from system.enrollment order by code", []);
         const enrollments = [];
         for (const enrollmentData of enrollmentsData) {
             const enrollment = await this.get(enrollmentData.code);
@@ -37,7 +37,7 @@ export default class EnrollmentRepositoryDatabase implements EnrollmentRepositor
         const module = await this.moduleRepository.findByCode(enrollmentData.level, enrollmentData.module);
         const classroom = await this.classroomRepository.findByCode(enrollmentData.classroom);
         const enrollment = new Enrollment(student, level, module, classroom, enrollmentData.issue_date, enrollmentData.sequence, enrollmentData.installments, enrollmentData.status);
-        const invoicesData = await ConnectionPool.query("select * from system.invoice where enrollment = $1", [code]);
+        const invoicesData = await ConnectionPool.query("select * from system.invoice where enrollment = $1 order by year, month", [code]);
         const invoices = [];
         for (const invoiceData of invoicesData) {
             const invoice = new Invoice(code, invoiceData.month, invoiceData.year, invoiceData.amount);
@@ -64,9 +64,10 @@ export default class EnrollmentRepositoryDatabase implements EnrollmentRepositor
 
     async update(enrollment: Enrollment): Promise<void> {
         await ConnectionPool.none("update system.enrollment set status = $1 where code = $2", [enrollment.status, enrollment.code.value]);
+        await ConnectionPool.none("delete from system.invoice_event where enrollment = $1", [enrollment.code.value]);
 		for (const invoice of enrollment.invoices) {
 			for (const invoiceEvent of invoice.events) {
-				await ConnectionPool.none("insert into system.invoice_event (enrollment, month, year, type, amount) values ($1, $2, $3, $4, $5) on conflict do nothing", [enrollment.code.value, invoice.month, invoice.year, invoiceEvent.type, invoiceEvent.amount]);
+				await ConnectionPool.none("insert into system.invoice_event (enrollment, month, year, type, amount) values ($1, $2, $3, $4, $5)", [enrollment.code.value, invoice.month, invoice.year, invoiceEvent.type, invoiceEvent.amount]);
 			}
 		}
     }
@@ -88,7 +89,7 @@ export default class EnrollmentRepositoryDatabase implements EnrollmentRepositor
     }
 
     async count(): Promise<number> {
-        const enrollments = await ConnectionPool.one("select count(*) from system.enrollment", []);
+        const enrollments = await ConnectionPool.one("select count(*)::int from system.enrollment", []);
 		return enrollments.count;
     }
 
