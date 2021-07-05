@@ -12,14 +12,17 @@ export default class EnrollmentController {
         this.repositoryFactory = repositoryFactory;
     }
 
-    async enrollStudent (body: any): Promise<EnrollStudentOutputData> {
+    async enrollStudent (params: any, body: any): Promise<EnrollStudentOutputData> {
+        console.log(params, body, this);
         const enrollStudent = new EnrollStudent(this.repositoryFactory);
         const enrollStudentInputData = new EnrollStudentInputData(body);
         const enrollStudentOutputData = await enrollStudent.execute(enrollStudentInputData);
         return enrollStudentOutputData;
     }
 
-    async getEnrollment (code: string, currentDate: Date = new Date()): Promise<GetEnrollmentOutputData> {
+    async getEnrollment (params: any, body: any): Promise<GetEnrollmentOutputData> {
+        const code = params.code;
+        const currentDate = new Date();
         const getEnrollment = new GetEnrollment(this.repositoryFactory);
         const getEnrollmentOutputData = await getEnrollment.execute(code, currentDate);
         return getEnrollmentOutputData;
