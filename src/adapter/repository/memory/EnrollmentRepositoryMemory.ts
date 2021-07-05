@@ -9,6 +9,9 @@ export default class EnrollmentRepositoryMemory implements EnrollmentRepository 
         this.enrollments = [];
         this.uuid = Math.floor(Math.random() * 1000);
     }
+    getAll(): Promise<Enrollment[]> {
+        return Promise.resolve(this.enrollments);
+    }
 
     async get(code: string): Promise<Enrollment> {
         const enrollment = this.enrollments.find(enrollment => enrollment.code.value === code);

@@ -18,6 +18,15 @@ export default class EnrollmentRepositoryDatabase implements EnrollmentRepositor
         this.moduleRepository = new ModuleRepositoryDatabase();
         this.classroomRepository = new ClassroomRepositoryDatabase();
     }
+    async getAll(): Promise<Enrollment[]> {
+        const enrollmentsData = await ConnectionPool.query("select code from system.enrollment", []);
+        const enrollments = [];
+        for (const enrollmentData of enrollmentsData) {
+            const enrollment = await this.get(enrollmentData.code);
+            enrollments.push(enrollment);
+        }
+        return enrollments;
+    }
 
     async get(code: string): Promise<Enrollment> {
         const enrollmentData = await ConnectionPool.oneOrNone("select * from system.enrollment where code = $1", [code]);

@@ -17,6 +17,7 @@ export default class Router {
         router.all("*", ExpressConverter.filter(securityController.isAuthorized.bind(securityController)));
         router.post("/enrollments", ExpressConverter.execute(enrollmentController.enrollStudent.bind(enrollmentController)));
         router.get("/enrollments/:code", ExpressConverter.execute(enrollmentController.getEnrollment.bind(enrollmentController)));
+        router.get("/enrollments", ExpressConverter.execute(enrollmentController.getEnrollments.bind(enrollmentController)));
         return router;
     }
 }
