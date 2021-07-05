@@ -8,7 +8,8 @@ export default class LevelRepositoryDatabase implements LevelRepository {
     }
 
     async findByCode(code: string) {
-        const levelData = await ConnectionPool.one("select * from system.level where code = $1", [code]);
+        const levelData = await ConnectionPool.oneOrNone("select * from system.level where code = $1", [code]);
+		if (!levelData) throw new Error("Level not found");
 		return new Level({
 			code: levelData.code,
 			description: levelData.description

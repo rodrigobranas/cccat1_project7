@@ -10,6 +10,7 @@ export default class Student {
         this.name = new Name(name);
         this.cpf = new Cpf(cpf);
         this.birthDate = new Date(birthDate);
+		if(isNaN(this.birthDate.getTime())) throw new Error("Invalid birth date");
     }
 
     getAge () {
