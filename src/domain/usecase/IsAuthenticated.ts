@@ -7,6 +7,6 @@ export default class IsAuthenticated {
     
     async execute (token: string): Promise<boolean> {
         if (token !== "123456") throw new Error("Not authenticated");
-        return true;
+        return true; // return userSession;
     }
 }
